@@ -1,0 +1,12 @@
+<div class="col-xs-4">
+  <h2>Новый гость</h2>
+  <div class="item">
+    <form role="form" ng-submit="main.add(newName)" ng-init="newName=''">
+      <div class="form-group">
+        <label for="name">Имя гостя</label>
+        <input ng-model="newName" type="text" id="name" class="form-control" name="name" placeholder="Имя гостя"/>
+      </div>
+      <button type="submit" id="addGuest" class="btn btn-default">Добавить</button>
+    </form>
+  </div>
+</div>
