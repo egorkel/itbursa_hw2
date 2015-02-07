@@ -1,4 +1,4 @@
-<div class="col-xs-4 invited">
+<div class="col-xs-4 invited" ng-controller="guestListCtrl">
   <h2>{{ctrl.listTitle}}</h2>
   <div class="record" ng-repeat="guest in main.guests | filter: {inHall: ctrl.val}">
     <div class="item" ng-click="main.move(guest)">
