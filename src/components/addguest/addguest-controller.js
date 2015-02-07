@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('clubguests')
-  .controller('addGuestCtrl', ['$scope','idGen', function ($scope, idGen) {
+  .controller('addGuestCtrl', ['$scope','idGenService', function ($scope, idGenService) {
 
     $scope.add = function (newName) {
 
       var guest = {
-        id: idGen.getId(),
+        id: idGenService.getId(),
         name: newName,
         inHall: false
       };

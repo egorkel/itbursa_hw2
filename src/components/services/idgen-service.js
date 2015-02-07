@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clubguests')
-  .factory('idGen', function () {
+  .factory('idGenService', function () {
 
     var genId = function () {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
