@@ -12,8 +12,6 @@ angular.module('clubguests')
       };
 
       $scope.guests.push(guest);
-
-      //TODO: 1) send via ws
       wsService.send(guest,'add','guest');
     };
 

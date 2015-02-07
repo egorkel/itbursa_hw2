@@ -1,17 +1,18 @@
 'use strict';
 
 angular.module('clubguests')
-  .controller('guestListCtrl', ['$scope', function ($scope) {
+  .controller('guestListCtrl', ['$scope', 'wsService', function ($scope, wsService) {
     $scope.move = function (guest) {
-      //TODO: 1) send via ws
       guest.inHall = !guest.inHall;
+      wsService.send(guest,'update','guest');
     };
 
     $scope.del = function (guest) {
-      //TODO: 1) replace with lowdash 2) send via ws
+      //TODO: 1) replace with lowdash
       $scope.guests = $scope.guests.filter(function (elem) {
         return elem.id !== guest.id;
       });
+      wsService.send(guest.id,'remove','id');
     };
 
   }]);

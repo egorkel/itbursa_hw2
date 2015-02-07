@@ -7,20 +7,20 @@ angular.module('clubguests')
       $scope.guests = data;
     });
 
-    var action = function (guests, data) {
+    var action = function (data) {
       var action = {
         'add': function () {
-          guests.push(data.guest);
+          $scope.guests.push(data.guest);
         },
         'remove': function () {
           //TODO: use lowdash
-          guests = guests.filter(function (elem) {
+          $scope.guests = $scope.guests.filter(function (elem) {
             return elem.id !== data.id;
           });
         },
         'update': function () {
           //TODO: use lowdash
-          guests.forEach(function (guest) {
+          $scope.guests.forEach(function (guest) {
             if (guest.id === data.guest.id) {
               guest.inHall = data.guest.inHall;
             }
@@ -35,8 +35,8 @@ angular.module('clubguests')
     };
 
     var onWSMessage = function (data) {
-      action($scope.guests, data);
-      //$scope.$evalAsync();
+      action(data);
+      $scope.$evalAsync();
     };
 
     wsService.setCallback(onWSMessage);
