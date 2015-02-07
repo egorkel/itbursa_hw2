@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clubguests')
-  .controller('addGuestCtrl', ['$scope','idGenService', function ($scope, idGenService) {
+  .controller('addGuestCtrl', ['$scope','idGenService', 'wsService', function ($scope, idGenService, wsService) {
 
     $scope.add = function (newName) {
 
@@ -14,6 +14,7 @@ angular.module('clubguests')
       $scope.guests.push(guest);
 
       //TODO: 1) send via ws
+      wsService.send(guest,'add','guest');
     };
 
   }]);

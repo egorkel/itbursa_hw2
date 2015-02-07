@@ -7,38 +7,29 @@ angular.module('clubguests')
     var url = 'ws://f2.smartjs.academy/ws';
     var ws = new WebSocket(url);
 
+    var callback;
+    var setCallback = function (func) {
+      callback = func;
+    };
+
+    var sendFunc = function (data, action, field) {
+      //И почему при 'remove' отправляется только id, а не весь guest?
+      //Было бы удобно параметризовать, а так нужны костыли :(
+      var obj = {
+        action: action
+      };
+      obj[field] = data;
+      ws.send(JSON.stringify(obj));
+    };
+
     ws.onmessage = function (event) {
       var data = JSON.parse(event.data);
-
-      switch (data.action)
-      {
-        case 'add':
-          var addGuest = {
-            id: data.guest.id,
-            name: data.guest.name,
-            inHall: data.guest.inHall
-          };
-          ctrl.guests.push(addGuest);
-          break;
-        case 'remove':
-          ctrl.guests = ctrl.guests.filter(function (elem) {
-            return elem.id !== data.id;
-          });
-          break;
-        case 'update':
-          ctrl.guests.forEach(function (guest) {
-            if (guest.id === data.guest.id) {
-              guest.inHall = data.guest.inHall;
-            }
-          });
-          break;
-      }
-
-      $scope.$evalAsync();
+      callback(data);
     };
 
     return {
-
+      setCallback: setCallback,
+      send: sendFunc
     };
 
   });
