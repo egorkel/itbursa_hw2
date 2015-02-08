@@ -3,10 +3,12 @@
 angular.module('clubguests')
   .controller('MainCtrl', ['$scope', 'getService', 'wsService', function ($scope, getService, wsService) {
 
-    getService.getGuests().success(function (data) {
-      $scope.guests = data;
+    //Initial data from server
+    getService.getGuests().then(function (resp) {
+      $scope.guests = resp.data;
     });
 
+    //Updating data through ws
     var action = function (data) {
       var action = {
         'add': function () {
