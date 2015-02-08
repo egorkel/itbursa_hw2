@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('clubguests')
-  .controller('guestListCtrl', ['$scope', 'wsService', function ($scope, wsService) {
+  .controller('guestListCtrl', ['$scope', 'wsService', 'dataMGR',
+    function ($scope, wsService, dataMGR) {
     $scope.update = function (guest) {
-      guest.inHall = !guest.inHall;
+      dataMGR.update($scope.guests, guest.id, 'inHall', !guest.inHall);
       wsService.send(guest,'update','guest');
     };
 
     $scope.remove = function (guest) {
-      $scope.guests = _.reject($scope.guests, {id: guest.id});
+      $scope.guests = dataMGR.remove($scope.guests, guest.id);
       wsService.send(guest.id,'remove','id');
     };
 

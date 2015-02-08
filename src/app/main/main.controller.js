@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('clubguests')
-  .controller('MainCtrl', ['$scope', 'getService', 'wsService', function ($scope, getService, wsService) {
+  .controller('MainCtrl', ['$scope', 'getService', 'wsService', 'dataMGR',
+    function ($scope, getService, wsService, dataMGR) {
 
     //Initial data from server
     getService.getGuests().then(function (resp) {
@@ -9,18 +10,16 @@ angular.module('clubguests')
     });
 
     //Updating data through ws
-    var action = function (data) {
+    var onWSMessage = function (data) {
       var action = {
         'add': function () {
-          $scope.guests.push(data.guest);
+          dataMGR.add($scope.guests, data.guest);
         },
         'remove': function () {
-          $scope.guests = _.reject($scope.guests, {id: data.id});
+          $scope.guests = dataMGR.remove($scope.guests, data.id);
         },
         'update': function () {
-          _.find($scope.guests, function (guest) {
-            return guest.id === data.guest.id;
-          }).inHall = data.guest.inHall;
+          dataMGR.update($scope.guests, data.guest.id, 'inHall', data.guest.inHall);
         },
         'default': function () {
           console.log('Unknown action ' + data.action);
@@ -28,10 +27,7 @@ angular.module('clubguests')
       };
 
       (action[data.action] || action['default'])();
-    };
 
-    var onWSMessage = function (data) {
-      action(data);
       $scope.$evalAsync();
     };
 

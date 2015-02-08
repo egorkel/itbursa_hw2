@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('clubguests')
-  .controller('addGuestCtrl', ['$scope','idGenService', 'wsService', function ($scope, idGenService, wsService) {
+  .controller('addGuestCtrl', ['$scope','idGenService', 'wsService', 'dataMGR',
+    function ($scope, idGenService, wsService, dataMGR) {
 
     $scope.add = function (newName) {
 
@@ -11,7 +12,7 @@ angular.module('clubguests')
         inHall: false
       };
 
-      $scope.guests.push(guest);
+      dataMGR.add($scope.guests, guest);
       wsService.send(guest,'add','guest');
     };
 
