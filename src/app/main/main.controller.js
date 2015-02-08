@@ -13,18 +13,12 @@ angular.module('clubguests')
           $scope.guests.push(data.guest);
         },
         'remove': function () {
-          //TODO: use lowdash
-          $scope.guests = $scope.guests.filter(function (elem) {
-            return elem.id !== data.id;
-          });
+          $scope.guests = _.reject($scope.guests, {id: data.id});
         },
         'update': function () {
-          //TODO: use lowdash
-          $scope.guests.forEach(function (guest) {
-            if (guest.id === data.guest.id) {
-              guest.inHall = data.guest.inHall;
-            }
-          });
+          _.find($scope.guests, function (guest) {
+            return guest.id === data.guest.id;
+          }).inHall = data.guest.inHall;
         },
         'default': function () {
           console.log('Unknown action ' + data.action);
